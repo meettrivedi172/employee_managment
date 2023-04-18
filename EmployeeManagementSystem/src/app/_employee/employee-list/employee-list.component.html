@@ -1,0 +1,218 @@
+
+<div class="container-fluid  mt-5">
+
+<div class="row ">
+  <div class="col">
+    <button type="button"  data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-success">Add Emplyoyee</button>
+  </div>
+  <div class="col-1">
+    <div>
+
+      <input id="gender1" type="radio" value="male"   [(ngModel)]="genders" />
+  <label class="radio-label"> Male</label>
+    </div>
+    <div>
+
+      <input id="gender2" type="radio" value="female"  [(ngModel)]="genders"/>
+      <label class="radio-label">Female</label>
+    </div>
+</div>
+<div class="col-2" >
+  <label>Department:</label>
+  <select id="inputState" class="form-select"  style="height: 38px;"  [(ngModel)]="department"  aria-placeholder="plese select department" >
+
+    <option value=".Net Devloper">.Net Devloper</option>
+    <option value="Angular Devloper" >Angular Devloper</option>
+    <option  value="Full Stack Devloper" >Full Stack Devloper</option>
+
+  </select>
+</div>
+
+<div class="col">
+
+  <button (click)="applyfilter()"   class="btn btn-primary   m-2">Apply Filter</button>
+  <button (click)=" RemoveFilter()"  class="btn btn-warning   m-2">Remove Filter</button>
+</div>
+
+<div  class="col d-flex">
+
+  <input style="width: 230px;height: 41px;" class="form-control me-2" type="search" placeholder="Search" aria-label="Search"  [(ngModel)]="searchvalue">
+  <button style="width: 115px;height: 41px;" class="btn btn-success" type="submit"  (click)="serchVal()">Search</button>
+
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<div class="container-fluid mt-3">
+
+
+  <table class="table   table-success table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Name</th>
+        <th scope="col">Email</th>
+        <th scope="col">Date Of Birth</th>
+        <th scope="col">department</th>
+        <th scope="col">Gender</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr  *ngFor="let item of employeeList">
+        <th scope="row">{{item.id}}</th>
+        <td>{{item.name}}</td>
+        <td>{{item.email}}</td>
+        <td>{{item.dob}}</td>
+        <td>{{item.department}}</td>
+        <td>{{item.gender}}</td>
+        <td><button type="button m-2" data-bs-toggle="modal" data-bs-target="#exampleModal1" class="btn btn-info" style="margin: 10px;" (click)="editEmplyoyeedata(item.id)">Edit </button>
+          <button type="button" class="btn btn-danger"  (click)="deleteemployee(item.id)">Delete</button>
+
+        </td>
+      </tr>
+
+
+    </tbody>
+  </table>
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- Modal -->
+
+<!-- add emplyoyee  -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Employee</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form class="row g-3"  [formGroup]="employeeForm"   (ngSubmit)="addEmployee()" >
+      <div class="modal-body">
+
+
+          <div class="col">
+            <label for="inputEmail4" class="form-label">Email</label>
+            <input type="email"  formControlName="email" class="form-control" id="inputEmail4"  placeholder="Enter your mail">
+          </div>
+
+
+
+          <div class="col">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" formControlName="name" class="form-control" id="inputCity"   placeholder="Enter your name">
+          </div>
+          <div class="col">
+            <label for="name" class="form-label">Date Of Birth</label>
+            <input type="date"  formControlName="dob"  class="form-control" id="inputCity">
+          </div>
+          <div class="col">
+            <label for="inputState" class="form-label"> department</label>
+            <select id="inputState" class="form-select"  formControlName="department">
+              <option selected>.Net Devloper</option>
+              <option selected>Angular Devloper</option>
+              <option selected>Full Stack Devloper</option>
+
+            </select>
+          </div>
+
+          <div class="col">
+            <input id="gender1" type="radio" value="male" formControlName="gender" />
+  <label class="radio-label"> Male</label>
+  <input id="gender2" type="radio" value="female" formControlName="gender" />
+  <label class="radio-label">Female</label>
+
+          </div>
+
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button  [disabled]="!this.employeeForm.valid" type="submit" class="btn btn-primary"  data-bs-dismiss="modal">Save</button>
+      </div>
+
+    </form>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- edit emplyoyee  -->
+<div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel1">Edit Emplyoyee</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form class="row g-3"  [formGroup]="employeeEditForm"    >
+      <div class="modal-body">
+        <div class="col">
+          <label for="inputEmail4" class="form-label">Id</label>
+          <input type="number"  formControlName="id" class="form-control" id="inputEmail4"  placeholder="Enter your mail">
+        </div>
+
+          <div class="col">
+            <label for="inputEmail4" class="form-label">Email</label>
+            <input type="email"  formControlName="email" class="form-control" id="inputEmail4"  placeholder="Enter your mail">
+          </div>
+
+
+
+          <div class="col">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" formControlName="name" class="form-control" id="inputCity"   placeholder="Enter your name">
+          </div>
+          <div class="col">
+            <label for="name" class="form-label">Date Of Birth</label>
+            <input type="date"  formControlName="dob"  class="form-control" id="inputCity">
+          </div>
+          <div class="col">
+            <label for="inputState" class="form-label"> department</label>
+            <select id="inputState" class="form-select"  formControlName="department">
+              <option selected>.Net Devloper</option>
+              <option selected>Angular Devloper</option>
+              <option selected>Full Stack Devloper</option>
+
+            </select>
+          </div>
+
+          <div class="col">
+            <input id="gender1" type="radio" value="male" formControlName="gender" />
+  <label class="radio-label"> Male</label>
+  <input id="gender2" type="radio" value="female" formControlName="gender" />
+  <label class="radio-label">Female</label>
+
+          </div>
+
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+
+        <button type="submit"    [disabled]="!this.employeeEditForm.valid"  class="btn btn-danger" data-bs-dismiss="modal" (click)="updateEmplyoyeedata()">Update</button>
+      </div>
+
+    </form>
+    </div>
+  </div>
+</div>
+
